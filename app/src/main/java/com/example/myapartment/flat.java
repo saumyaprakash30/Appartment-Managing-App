@@ -6,14 +6,14 @@ public class flat
     private String flatOwner;
     private String flatResident;
     private String flatOwnerMobile;
-    private String getFlatResidentMobile;
+    private String FlatResidentMobile;
 
-    public flat(String flatName, String flatOwner, String flatResident, String flatOwnerMobile, String getFlatResidentMobile) {
+    public flat(String flatName, String flatOwner, String flatResident, String flatOwnerMobile, String FlatResidentMobile) {
         this.flatName = flatName;
         this.flatOwner = flatOwner;
         this.flatResident = flatResident;
         this.flatOwnerMobile = flatOwnerMobile;
-        this.getFlatResidentMobile = getFlatResidentMobile;
+        this.FlatResidentMobile = FlatResidentMobile;
     }
 
     public String getFlatName() {
@@ -32,7 +32,7 @@ public class flat
         return flatOwnerMobile;
     }
 
-    public String getGetFlatResidentMobile() {
-        return getFlatResidentMobile;
+    public String getFlatResidentMobile() {
+        return FlatResidentMobile;
     }
 }
