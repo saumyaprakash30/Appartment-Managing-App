@@ -106,6 +106,9 @@ public class MyDBHandler extends SQLiteOpenHelper
 
     }
 
+
+
+
     public flat getFlatDetail(String fname)
     {
         flat f;

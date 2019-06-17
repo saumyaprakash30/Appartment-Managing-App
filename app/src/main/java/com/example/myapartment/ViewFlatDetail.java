@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -16,7 +19,36 @@ import java.util.ArrayList;
 
 public class ViewFlatDetail extends AppCompatActivity {
     TextView tvVFNumber, tvVFOName,tvVONumber,tvVRName,tvVRNumber;
+    flat ef;
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.editFlatDetail:
+                Intent intent= (new Intent(ViewFlatDetail.this,com.example.myapartment.newFlat.class));
+                boolean edit = true;
+                intent.putExtra("from",true);
+                intent.putExtra("edit",edit);
+                intent.putExtra("editFN",ef.getFlatName());
+                intent.putExtra("editFO",ef.getFlatOwner());
+                intent.putExtra("editFON",ef.getFlatOwnerMobile());
+                intent.putExtra("editFR",ef.getFlatResident());
+                intent.putExtra("editFRN",ef.getFlatResidentMobile());
+                startActivityForResult(intent,1001);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.view_flat_detail_action_bar,menu);
+        return super.onCreateOptionsMenu(menu);
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +67,7 @@ public class ViewFlatDetail extends AppCompatActivity {
         String id = getIntent().getStringExtra("id");
 
         flat f = dbHandler.getFlatDetail(id);
+        ef = f;
 
         tvVFNumber.setText(f.getFlatName());
         tvVFOName.setText(f.getFlatOwner());
@@ -48,7 +81,7 @@ public class ViewFlatDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewFlatDetail.this);
-                builder.setTitle("Whom to call ?");
+                builder.setTitle("Call to");
 
                 String[] callList= new String[]{"Owner: "+tvVFOName.getText().toString(),"Res.: "+tvVRName.getText().toString()};
 
@@ -82,7 +115,7 @@ public class ViewFlatDetail extends AppCompatActivity {
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewFlatDetail.this);
-                builder.setTitle("Whom to sent Sms ?");
+                builder.setTitle("Send Sms to");
 
                 String[] callList= new String[]{"Owner: "+tvVFOName.getText().toString(),"Res.: "+tvVRName.getText().toString()};
 
@@ -141,5 +174,29 @@ public class ViewFlatDetail extends AppCompatActivity {
 
 
 
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode==1001)
+        {
+            if(resultCode== RESULT_OK)
+            {
+                MyDBHandler dbHandler = new MyDBHandler(this,null,null,1);
+                String id = data.getStringExtra("id1");
+                flat f = dbHandler.getFlatDetail(id);
+
+
+                tvVFNumber.setText(f.getFlatName());
+                tvVFOName.setText(f.getFlatOwner());
+                tvVONumber.setText(f.getFlatOwnerMobile());
+                tvVRName.setText(f.getFlatResident());
+                tvVRNumber.setText(f.getFlatResidentMobile());
+            }
+        }
     }
 }

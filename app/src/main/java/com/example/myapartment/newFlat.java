@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +23,10 @@ public class newFlat extends AppCompatActivity {
     TextView tvNewDetail;
     CheckBox cbSAA;
     MyDBHandler dbHandler;
-    //Button btnAdd= findViewById(R.id.btnNewFlatSubmit);
+
+    boolean edit ;
+    String fn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +40,28 @@ public class newFlat extends AppCompatActivity {
         etResNumber = findViewById(R.id.etResNumber);
 
 
-        /*btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+         edit = getIntent().getBooleanExtra("from",false);
 
-            }
-        });
-        */
+        if(edit)
+        {
+            String eFN = getIntent().getStringExtra("editFN");
+            String eFO = getIntent().getStringExtra("editFO");
+            String eFON = getIntent().getStringExtra("editFON");
+            String eFR  = getIntent().getStringExtra("editFR");
+            String eFRN = getIntent().getStringExtra("editFRN");
+            fn = eFN;
+
+            etFlatName.setText(eFN);
+            etOwnerName.setText(eFO);
+            etOwnerNumber.setText(eFON);
+            etResName.setText(eFR);
+            etResNumber.setText(eFRN);
+
+        }
+
+
+
+
 
 
 
@@ -88,26 +107,40 @@ public class newFlat extends AppCompatActivity {
 
     public void onSubmitButton(View view)
     {
-        if((etFlatName.getText().toString().isEmpty() || etOwnerName.getText().toString().isEmpty() || etOwnerNumber.getText().toString().isEmpty()) ||
-                etResName.getText().toString().isEmpty() || etResNumber.getText().toString().isEmpty() )
-        {
-            Toast.makeText(newFlat.this, "Please fill all fields !", Toast.LENGTH_SHORT).show();
-        }
-        else
-        {
-            dbHandler = new MyDBHandler(this,null,null,1);
+            if((etFlatName.getText().toString().isEmpty() || etOwnerName.getText().toString().isEmpty() || etOwnerNumber.getText().toString().isEmpty()) ||
+                    etResName.getText().toString().isEmpty() || etResNumber.getText().toString().isEmpty() )
+            {
+                Toast.makeText(newFlat.this, "Please fill all fields !", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                dbHandler = new MyDBHandler(this,null,null,1);
 
-            flat newflat = new flat(etFlatName.getText().toString().toUpperCase().trim(),etOwnerName.getText().toString().trim(),etResName.getText().toString().trim(),
-                    etOwnerNumber.getText().toString().trim(),etResNumber.getText().toString().trim());
+                flat newflat = new flat(etFlatName.getText().toString().toUpperCase().trim(),etOwnerName.getText().toString().trim(),etResName.getText().toString().trim(),
+                        etOwnerNumber.getText().toString().trim(),etResNumber.getText().toString().trim());
 
-            dbHandler.addFlat(newflat);
+                if(edit)
+                {
+                    dbHandler.deleteFlat(fn);
+                    dbHandler.addFlat(newflat);
+                    Intent rintent = new Intent();
+                    rintent.putExtra("id1",etFlatName.getText().toString().trim());
+                    setResult(RESULT_OK,   rintent);
+                }
+                else
+                {
+                    dbHandler.addFlat(newflat);
+                }
 
-            dbHandler.close();
+                dbHandler.close();
 
-            newFlat.this.finish();
+                newFlat.this.finish();
 
 
-        }
+
+
+            }
+
     }
 
     @Override

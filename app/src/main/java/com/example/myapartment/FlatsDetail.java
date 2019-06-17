@@ -38,7 +38,9 @@ public class FlatsDetail extends AppCompatActivity {
         btnNewFlatAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(FlatsDetail.this,com.example.myapartment.newFlat.class));
+                Intent intent =  (new Intent(FlatsDetail.this,com.example.myapartment.newFlat.class));
+                intent.putExtra("from",false);
+                startActivity(intent);
 
             }
         });
