@@ -2,8 +2,14 @@ package com.example.myapartment;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MyDBHandler extends SQLiteOpenHelper
 {
@@ -24,8 +30,8 @@ public class MyDBHandler extends SQLiteOpenHelper
     public void onCreate(SQLiteDatabase db)
     {
         String query = "CREATE TABLE " +TABLE_FLATS +" ( " +
-                COLUMN_FLATNUMBER + " TEXT PRIMARY KEY ," +
-                COLUMN_OWNERNAME + "TEXT ," +
+                COLUMN_FLATNUMBER + " TEXT PRIMARY KEY ,    " +
+                COLUMN_OWNERNAME + " TEXT ," +
                 COLUMN_OWNERNUMBER + " TEXT," +
                 COLUMN_RESNAME + " TEXT," +
                 COLUMN_RESNUMBER + " TEXT" +
@@ -57,5 +63,79 @@ public class MyDBHandler extends SQLiteOpenHelper
 
     }
 
+    //deleting in database
 
+    public void deleteFlat(String flatNumber)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_FLATS +" WHERE " + COLUMN_FLATNUMBER +"=\"" + flatNumber + "\";");
+    }
+
+
+    public ArrayList<flat> getFlats()
+    {
+        ArrayList<flat> allFlats = new ArrayList<flat>();
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_FLATS+ " ORDER BY " +  COLUMN_FLATNUMBER + " ASC";
+
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_FLATNUMBER))!= null)
+            {
+                String fnum,oName,rName,oNum,rNum;
+
+                fnum = c.getString(c.getColumnIndex(COLUMN_FLATNUMBER));
+                oName = c.getString(c.getColumnIndex(COLUMN_OWNERNAME));
+                oNum = c.getString(c.getColumnIndex(COLUMN_OWNERNUMBER));
+                rName = c.getString(c.getColumnIndex(COLUMN_RESNAME));
+                rNum = c.getString(c.getColumnIndex(COLUMN_RESNUMBER));
+                flat f = new flat(fnum,oName,rName,oNum,rNum);
+                allFlats.add(f);
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+        return allFlats;
+
+    }
+
+    public flat getFlatDetail(String fname)
+    {
+        flat f;
+        String fnum=fname,oName="b",rName="c",oNum="d",rNum="e";
+
+
+
+        SQLiteDatabase db =getWritableDatabase();
+        String q= "SELECT * FROM " + TABLE_FLATS + " WHERE " + COLUMN_FLATNUMBER + " =\"" + fname + "\";";
+
+        Cursor c =  db.rawQuery(q,null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_FLATNUMBER))!=null)
+            {
+
+                fnum = c.getString(c.getColumnIndex(COLUMN_FLATNUMBER));
+                oName = c.getString(c.getColumnIndex(COLUMN_OWNERNAME));
+                oNum = c.getString(c.getColumnIndex(COLUMN_OWNERNUMBER));
+                rName = c.getString(c.getColumnIndex(COLUMN_RESNAME));
+                rNum = c.getString(c.getColumnIndex(COLUMN_RESNUMBER));
+
+
+            }
+            c.moveToNext();
+        }
+
+        f = new flat(fnum,oName,rName,oNum,rNum);
+        return f;
+    }
 }

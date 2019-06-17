@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Flat Number"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textAllCaps="true" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -72,6 +73,13 @@
             android:hint="Ownre's Phone Number'"
             android:inputType="phone" />
     </android.support.design.widget.TextInputLayout>
+
+    <CheckBox
+        android:id="@+id/cbSAA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onCheckedSame"
+        android:text="Same as above" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,13 +138,8 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="30dp"
+        android:onClick="onSubmitButton"
         android:text="Add" />
-
-    <TextView
-        android:id="@+id/tvNewDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
 
 </LinearLayout>
