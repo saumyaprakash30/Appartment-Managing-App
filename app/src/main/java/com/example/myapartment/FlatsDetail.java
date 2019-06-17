@@ -25,9 +25,7 @@ public class FlatsDetail extends AppCompatActivity {
 
 
         list = dbHandler.getFlats();
-        /*flat c2 = new flat("c2","Geeta Verma","Satya Prakash","8271246090","9934364998");
-        list.add(c2);
-        */
+
 
         lvFlat =(ListView) findViewById(R.id.lvFlats);
         customAdatper adatper = new customAdatper(this,list);

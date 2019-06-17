@@ -98,7 +98,7 @@ public class ViewFlatDetail extends AppCompatActivity {
                             startActivity(intent);
                         }
 
-                        //Toast.makeText(ViewFlatDetail.this, "hello" + i, Toast.LENGTH_SHORT).show();
+
                     }
 
                 });

@@ -59,14 +59,6 @@ public class newFlat extends AppCompatActivity {
 
         }
 
-
-
-
-
-
-
-
-
     }
 
     public void onClickedAddOwner(View view)
