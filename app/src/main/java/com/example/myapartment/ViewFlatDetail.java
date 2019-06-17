@@ -182,10 +182,12 @@ public class ViewFlatDetail extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode==1001)
+        if(requestCode==1001)
         {
             if(resultCode== RESULT_OK)
             {
+
+
                 MyDBHandler dbHandler = new MyDBHandler(this,null,null,1);
                 String id = data.getStringExtra("id1");
                 flat f = dbHandler.getFlatDetail(id);
@@ -196,6 +198,7 @@ public class ViewFlatDetail extends AppCompatActivity {
                 tvVONumber.setText(f.getFlatOwnerMobile());
                 tvVRName.setText(f.getFlatResident());
                 tvVRNumber.setText(f.getFlatResidentMobile());
+
             }
         }
     }
