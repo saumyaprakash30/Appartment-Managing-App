@@ -16,11 +16,15 @@ public class MyDBHandler extends SQLiteOpenHelper
     private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "flatdata.db";
     public static final String TABLE_FLATS = "flatDetail";
+
     public static final  String COLUMN_FLATNUMBER = "_fnumber";
     public static final String COLUMN_OWNERNAME = "fowner_name";
     public static final String COLUMN_OWNERNUMBER = "fowner_number";
     public static final String COLUMN_RESNAME = "fres_name";
     public static final String COLUMN_RESNUMBER = "fres_number";
+    public static final String TABLE_FUEL ="fuelDetail";
+    public static final String COLUMN_FUEL_DATE = "fuel_Date";
+    public static final String COLUMN_FUEL = "fuel_l";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -37,6 +41,12 @@ public class MyDBHandler extends SQLiteOpenHelper
                 COLUMN_RESNUMBER + " TEXT" +
                 " );";
         db.execSQL(query);
+        query = "CREATE TABLE "+TABLE_FUEL + " ( " +
+                COLUMN_FUEL_DATE +" DATE PRIMARY KEY, "+
+                COLUMN_FUEL + " INTEGER )";
+        db.execSQL(query);
+
+
 
     }
 
@@ -44,6 +54,8 @@ public class MyDBHandler extends SQLiteOpenHelper
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FLATS);
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_FUEL);
         onCreate(db);
 
     }
@@ -140,5 +152,59 @@ public class MyDBHandler extends SQLiteOpenHelper
 
         f = new flat(fnum,oName,rName,oNum,rNum);
         return f;
+    }
+
+    public void addFuel(String Date,int fuel)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_FUEL_DATE,Date);
+        cv.put(COLUMN_FUEL,fuel);
+        db.insert(TABLE_FUEL,null,cv);
+        db.close();
+
+
+    }
+
+    public String getFuelPrint()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String q = "SELECT * FROM " + TABLE_FUEL +" ORDER BY "+ COLUMN_FUEL_DATE +";";
+
+        Cursor c =  db.rawQuery(q,null);
+        c.moveToFirst();
+        String data = "";
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_FUEL))!=null)
+            {
+                String f = String.valueOf(c.getString(c.getColumnIndex(COLUMN_FUEL)));
+                data+= c.getString(c.getColumnIndex(COLUMN_FUEL_DATE)) + " : " + f +"L"+"\n";
+            }
+            c.moveToNext();
+        }
+
+        return data;
+
+    }
+
+    public Boolean fuelDelete(String date)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        try{
+              db.execSQL("DELETE FROM " + TABLE_FUEL +" WHERE " + COLUMN_FUEL_DATE +"=\"" + date + "\";");
+              db.close();
+              return  true;
+
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+
+
+
     }
 }

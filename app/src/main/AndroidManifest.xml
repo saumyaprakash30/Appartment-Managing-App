@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".noticeActivity"></activity>
+        <activity android:name=".GeneratorActivity"></activity>
+        <activity android:name=".maintenanceAvtivity" />
+        <activity android:name=".noticeActivity" />
         <activity android:name=".ViewFlatDetail" />
         <activity android:name=".newFlat" />
         <activity android:name=".FlatsDetail" />
