@@ -29,6 +29,19 @@ public class maintenanceAvtivity extends AppCompatActivity {
 
             }
         });
+        btnGenSer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(maintenanceAvtivity.this,com.example.myapartment.GeneratorServicing.class));
+            }
+        });
+
+        btnLiftSer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(maintenanceAvtivity.this,com.example.myapartment.liftServicing.class));
+            }
+        });
 
     }
 }

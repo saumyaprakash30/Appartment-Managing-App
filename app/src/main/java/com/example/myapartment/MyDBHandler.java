@@ -25,6 +25,9 @@ public class MyDBHandler extends SQLiteOpenHelper
     public static final String TABLE_FUEL ="fuelDetail";
     public static final String COLUMN_FUEL_DATE = "fuel_Date";
     public static final String COLUMN_FUEL = "fuel_l";
+    public static final String TABLE_GEN_SER = "genSerDetail";
+    public static final String COLUMN_GEN_SER_DATE = "gen_serDate";
+    public static final String COLUMN_GEN_SER_NOTE = "gen_serNote";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -45,6 +48,10 @@ public class MyDBHandler extends SQLiteOpenHelper
                 COLUMN_FUEL_DATE +" DATE PRIMARY KEY, "+
                 COLUMN_FUEL + " INTEGER )";
         db.execSQL(query);
+        query = "CREATE TABLE "+TABLE_GEN_SER + " ( " +
+                COLUMN_GEN_SER_DATE +" DATE PRIMARY KEY, "+
+                COLUMN_GEN_SER_NOTE + " TEXT )";
+        db.execSQL(query);
 
 
 
@@ -57,6 +64,9 @@ public class MyDBHandler extends SQLiteOpenHelper
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FUEL);
         onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GEN_SER);
+        onCreate(db);
+
 
     }
     // adding to database
@@ -169,7 +179,7 @@ public class MyDBHandler extends SQLiteOpenHelper
     public String getFuelPrint()
     {
         SQLiteDatabase db = getWritableDatabase();
-        String q = "SELECT * FROM " + TABLE_FUEL +" ORDER BY "+ COLUMN_FUEL_DATE +";";
+        String q = "SELECT * FROM " + TABLE_FUEL +" ORDER BY "+ COLUMN_FUEL_DATE +" DESC;";
 
         Cursor c =  db.rawQuery(q,null);
         c.moveToFirst();
@@ -180,7 +190,8 @@ public class MyDBHandler extends SQLiteOpenHelper
             if(c.getString(c.getColumnIndex(COLUMN_FUEL))!=null)
             {
                 String f = String.valueOf(c.getString(c.getColumnIndex(COLUMN_FUEL)));
-                data+= c.getString(c.getColumnIndex(COLUMN_FUEL_DATE)) + " : " + f +"L"+"\n";
+                data+= c.getString(c.getColumnIndex(COLUMN_FUEL_DATE)) + " : " + f +"L"+"\n"
+                        +"--------------------------\n";
             }
             c.moveToNext();
         }
@@ -207,4 +218,43 @@ public class MyDBHandler extends SQLiteOpenHelper
 
 
     }
+    public void addGenSer(String Date,String note)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_GEN_SER_DATE,Date);
+        cv.put(COLUMN_GEN_SER_NOTE,note);
+        db.insert(TABLE_GEN_SER,null,cv);
+        db.close();
+    }
+    public void delGenSer(String date)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_GEN_SER +" WHERE " + COLUMN_GEN_SER_DATE +"=\"" + date + "\";");
+        db.close();
+    }
+
+    public String getGenSerDetail()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String q = "SELECT * FROM " + TABLE_GEN_SER +" ORDER BY "+ COLUMN_GEN_SER_DATE +" desc ;";
+
+        Cursor c =  db.rawQuery(q,null);
+        c.moveToFirst();
+        String data = "";
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_GEN_SER_DATE))!=null)
+            {
+
+                data+= c.getString(c.getColumnIndex(COLUMN_GEN_SER_DATE)) + " : " + c.getString(c.getColumnIndex(COLUMN_GEN_SER_NOTE)) +"L"+"\n"+
+                                        "----------------------------\n";
+            }
+            c.moveToNext();
+        }
+
+        return data;
+    }
+
 }

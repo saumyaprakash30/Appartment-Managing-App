@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context=".GeneratorActivity">
+    android:layout_height="match_parent"
+    tools:context=".GeneratorServicing">
 
     <TextView
-        android:id="@+id/tvFuelHead"
+        android:id="@+id/tvGSerHead"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -21,7 +21,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/etDateFuel"
+            android:id="@+id/etGDateSer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -31,7 +31,7 @@
             android:inputType="textPersonName" />
 
         <ImageButton
-            android:id="@+id/btnCalendar"
+            android:id="@+id/btnGCalendarSer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -39,25 +39,24 @@
     </LinearLayout>
 
     <CalendarView
-        android:id="@+id/cvGFuel"
+        android:id="@+id/cvGSer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
     <EditText
-        android:id="@+id/etFuel"
+        android:id="@+id/etGSerNote"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Diesel (Litre)"
-        android:inputType="number" />
+        android:hint="Note"
+        android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/btnAddFuel"
+        android:id="@+id/btnGSerAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,31 +64,29 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnFuelDelete"
+            android:id="@+id/btnGSerDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Delete" />
 
         <Button
-            android:id="@+id/btnDelCancel"
+            android:id="@+id/btnGDelCancelSer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@android:string/cancel" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Fuel Details\n(Date : Litre)"
-        android:textStyle="bold" />
+        android:text="Details" />
 
     <TextView
-        android:id="@+id/tvGFuelDet"
+        android:id="@+id/tvGSerDet"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:layout_margin="15dp"
+        android:layout_margin="15sp"
         android:background="#1D2196F3"
         android:fadeScrollbars="false"
         android:scrollbars="vertical"
@@ -97,3 +94,5 @@
         android:textSize="22sp" />
 
 </LinearLayout>
+
+

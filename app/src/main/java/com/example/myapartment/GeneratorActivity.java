@@ -26,7 +26,7 @@ public class GeneratorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generator);
-        tvDet = findViewById(R.id.tvFuelDet);
+        tvDet = findViewById(R.id.tvGFuelDet    );
         tvDet.setMovementMethod(new ScrollingMovementMethod());
         btnAddFuel = findViewById(R.id.btnAddFuel);
         etDateFuel = findViewById(R.id.etDateFuel);
