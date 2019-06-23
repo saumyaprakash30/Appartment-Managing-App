@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/fuelDelete"
         android:icon="@drawable/ic_delete_black_24dp"
-        android:title="Delete Fuel date"
+        android:title="Delete date"
         android:orderInCategory="1"
         app:showAsAction="ifRoom"
 
