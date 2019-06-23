@@ -105,6 +105,8 @@
         android:layout_height="200dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="servicings" />
+        android:background="#1D2196F3"
+        android:text="No details ! "
+        android:textSize="22sp" />
 
 </LinearLayout>

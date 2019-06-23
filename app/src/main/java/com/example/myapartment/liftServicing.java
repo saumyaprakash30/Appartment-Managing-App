@@ -12,6 +12,7 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class liftServicing extends AppCompatActivity {
 
@@ -20,6 +21,8 @@ public class liftServicing extends AppCompatActivity {
     ImageButton btnCalendar;
     Button btnAdd,btnDelete ,btnCancel;
     CalendarView cv;
+    MyDBHandler mydb = new MyDBHandler(liftServicing.this,null,null,1);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class liftServicing extends AppCompatActivity {
         cv = findViewById(R.id.cvCalendar);
 
         tvDet.setMovementMethod(new ScrollingMovementMethod());
+        tvDet.setText(mydb.getLiftSerDetail());
         etNote.setMovementMethod(new ScrollingMovementMethod());
 
         cv.setVisibility(View.GONE);
@@ -47,7 +51,6 @@ public class liftServicing extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 etNote.setVisibility(View.VISIBLE);
-                btnCancel.setVisibility(View.VISIBLE);
                 btnDelete.setVisibility(View.GONE);
                 btnAdd.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.GONE);
@@ -68,6 +71,49 @@ public class liftServicing extends AppCompatActivity {
                         cv.setVisibility(View.GONE);
                     }
                 });
+            }
+        });
+
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etDate.getText().toString().isEmpty()   || etNote.getText().toString().isEmpty())
+                {
+                    Toast.makeText(liftServicing.this, "Please fill all fields !", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    mydb.addLiftSer(etDate.getText().toString().trim(),etNote.getText().toString().trim());
+                    tvDet.setText(mydb.getLiftSerDetail());
+                    Toast.makeText(liftServicing.this, "Saved!", Toast.LENGTH_SHORT).show();
+                    etDate.setText("");
+                    etNote.setText("");
+                }
+
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(etDate.getText().toString().isEmpty())
+                {
+                    Toast.makeText(liftServicing.this, "Please fill date !", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    mydb.deleteLiftSer(etDate.getText().toString().trim());
+                    tvDet.setText(mydb.getLiftSerDetail());
+                    Toast.makeText(liftServicing.this, "Deleted!", Toast.LENGTH_SHORT).show();
+
+                    etNote.setVisibility(View.VISIBLE);
+                    btnDelete.setVisibility(View.GONE);
+                    btnAdd.setVisibility(View.VISIBLE);
+                    btnCancel.setVisibility(View.GONE);
+                    etNote.setText("");
+                    etDate.setText("");
+                }
             }
         });
 

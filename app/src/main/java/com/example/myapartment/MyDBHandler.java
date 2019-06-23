@@ -28,6 +28,9 @@ public class MyDBHandler extends SQLiteOpenHelper
     public static final String TABLE_GEN_SER = "genSerDetail";
     public static final String COLUMN_GEN_SER_DATE = "gen_serDate";
     public static final String COLUMN_GEN_SER_NOTE = "gen_serNote";
+    public static final String TABLE_LIFT_SER = "liftSerDetail";
+    public static final String COLUMN_LIFT_SER_DATE = "lift_serDate";
+    public static final  String COLUMN_LIFT_SER_NOTE = "lift_serNote";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -52,6 +55,11 @@ public class MyDBHandler extends SQLiteOpenHelper
                 COLUMN_GEN_SER_DATE +" DATE PRIMARY KEY, "+
                 COLUMN_GEN_SER_NOTE + " TEXT )";
         db.execSQL(query);
+        query = "CREATE TABLE "+TABLE_LIFT_SER + " ( " +
+                COLUMN_LIFT_SER_DATE +" DATE PRIMARY KEY, "+
+                COLUMN_LIFT_SER_NOTE + " TEXT )";
+        db.execSQL(query);
+
 
 
 
@@ -65,6 +73,8 @@ public class MyDBHandler extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_FUEL);
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GEN_SER);
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIFT_SER);
         onCreate(db);
 
 
@@ -250,6 +260,47 @@ public class MyDBHandler extends SQLiteOpenHelper
 
                 data+= c.getString(c.getColumnIndex(COLUMN_GEN_SER_DATE)) + " : " + c.getString(c.getColumnIndex(COLUMN_GEN_SER_NOTE)) +"L"+"\n"+
                                         "----------------------------\n";
+            }
+            c.moveToNext();
+        }
+
+        return data;
+    }
+    public void addLiftSer(String date,String note)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+    cv.put(COLUMN_LIFT_SER_DATE,date);
+    cv.put(COLUMN_LIFT_SER_NOTE,note);
+    db.insert(TABLE_LIFT_SER,null,cv);
+    db.close();
+
+
+    }
+    public void deleteLiftSer(String date)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_LIFT_SER +" WHERE " + COLUMN_LIFT_SER_DATE +"=\"" + date + "\";");
+        db.close();
+
+
+    }
+    public String getLiftSerDetail()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String q = "SELECT * FROM " + TABLE_LIFT_SER +" ORDER BY "+ COLUMN_LIFT_SER_DATE +" desc ;";
+
+        Cursor c =  db.rawQuery(q,null);
+        c.moveToFirst();
+        String data = "";
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_LIFT_SER_DATE))!=null)
+            {
+
+                data+= c.getString(c.getColumnIndex(COLUMN_LIFT_SER_DATE)) + " : " + c.getString(c.getColumnIndex(COLUMN_LIFT_SER_NOTE)) +"\n"+
+                        "----------------------------\n";
             }
             c.moveToNext();
         }

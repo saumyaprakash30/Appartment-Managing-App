@@ -92,6 +92,7 @@ public class GeneratorServicing extends AppCompatActivity {
                     tvDet.setText(myDB.getGenSerDetail());
                     etNote.setText("");
                     etDate.setText("");
+                    Toast.makeText(GeneratorServicing.this, "Saved!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -114,6 +115,8 @@ public class GeneratorServicing extends AppCompatActivity {
                     btnCancel.setVisibility(View.GONE);
                     etNote.setVisibility(View.VISIBLE);
                     etDate.setText("");
+
+                    Toast.makeText(GeneratorServicing.this, "Deleted!", Toast.LENGTH_SHORT).show();
 
                 }
             }
