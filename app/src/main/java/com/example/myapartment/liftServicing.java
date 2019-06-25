@@ -55,7 +55,7 @@ public class liftServicing extends AppCompatActivity {
                 btnAdd.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.GONE);
                 etNote.setText("");
-                etDate.setText("");
+                etDate.setText("");cv.setVisibility(View.GONE);
             }
         });
 
@@ -132,11 +132,13 @@ public class liftServicing extends AppCompatActivity {
         etNote.setVisibility(View.GONE);
         btnCancel.setVisibility(View.VISIBLE);
         btnDelete.setVisibility(View.VISIBLE);
-        btnAdd.setVisibility(View.GONE);
+        btnAdd.setVisibility(View.GONE);cv.setVisibility(View.GONE);
         etNote.setText("");
         etDate.setText("");
 
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

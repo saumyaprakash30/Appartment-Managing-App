@@ -93,7 +93,7 @@ public class GeneratorActivity extends AppCompatActivity {
                 btnFuelDelete.setVisibility(View.GONE);
                 btnFuelCancel.setVisibility(View.GONE);
                 etDateFuel.setText("");
-                etFuel.setText("");
+                etFuel.setText("");cv.setVisibility(View.GONE);
             }
         });
 
@@ -152,7 +152,7 @@ public class GeneratorActivity extends AppCompatActivity {
                 btnAddFuel.setVisibility(View.GONE);
                 btnFuelDelete.setVisibility(View.VISIBLE);
                 btnFuelCancel.setVisibility(View.VISIBLE);
-                etDateFuel.setText("");
+                etDateFuel.setText("");cv.setVisibility(View.GONE);
                 etFuel.setText("");
 
         }

@@ -31,6 +31,12 @@ public class MyDBHandler extends SQLiteOpenHelper
     public static final String TABLE_LIFT_SER = "liftSerDetail";
     public static final String COLUMN_LIFT_SER_DATE = "lift_serDate";
     public static final  String COLUMN_LIFT_SER_NOTE = "lift_serNote";
+    public static final String TABLE_ELE_BILL = "eleBill";
+    public static final String COLUMN_ELE_BILL_DATE = "ele_billDate";
+    public static final String COLUMN_ELE_BILL_NOTE =  "ele_billNote";
+    public static final String TABLE_WATER_BILL = "waterBill";
+    public static final String COLUMN_WATER_BILL_DATE = "water_billDate";
+    public static final String COLUMN_WATER_BILL_NOTE =  "water_billNote";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -59,6 +65,15 @@ public class MyDBHandler extends SQLiteOpenHelper
                 COLUMN_LIFT_SER_DATE +" DATE PRIMARY KEY, "+
                 COLUMN_LIFT_SER_NOTE + " TEXT )";
         db.execSQL(query);
+        query = "CREATE TABLE "+TABLE_ELE_BILL + " ( " +
+                COLUMN_ELE_BILL_DATE +" DATE PRIMARY KEY, "+
+                COLUMN_ELE_BILL_NOTE+ " TEXT )";
+        db.execSQL(query);
+
+        query = "CREATE TABLE "+TABLE_WATER_BILL + " ( " +
+                COLUMN_WATER_BILL_DATE +" DATE PRIMARY KEY, "+
+                COLUMN_WATER_BILL_NOTE+ " TEXT )";
+        db.execSQL(query);
 
 
 
@@ -75,6 +90,10 @@ public class MyDBHandler extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_GEN_SER);
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LIFT_SER);
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ELE_BILL);
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WATER_BILL);
         onCreate(db);
 
 
@@ -308,4 +327,82 @@ public class MyDBHandler extends SQLiteOpenHelper
         return data;
     }
 
+    public void addEleBill(String date,String note)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ELE_BILL_DATE,date);
+        cv.put(COLUMN_ELE_BILL_NOTE,note);
+        db.insert(TABLE_ELE_BILL,null,cv);
+        db.close();
+    }
+    public void deleteEleBill(String date)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_ELE_BILL +" WHERE " + COLUMN_ELE_BILL_DATE +"=\"" + date + "\";");
+        db.close();
+
+    }
+
+    public String getelebillDetail()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String q = "SELECT * FROM " + TABLE_ELE_BILL +" ORDER BY "+ COLUMN_ELE_BILL_DATE +" desc ;";
+
+        Cursor c =  db.rawQuery(q,null);
+        c.moveToFirst();
+        String data = "";
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_ELE_BILL_DATE))!=null)
+            {
+
+                data+= c.getString(c.getColumnIndex(COLUMN_ELE_BILL_DATE)) + " : " + c.getString(c.getColumnIndex(COLUMN_ELE_BILL_NOTE)) +"\n"+
+                        "----------------------------\n";
+            }
+            c.moveToNext();
+        }
+
+        return data;
+    }
+
+    public void addWaterBill(String date,String note)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_WATER_BILL_DATE,date);
+        cv.put(COLUMN_WATER_BILL_NOTE,note);
+        db.insert(TABLE_WATER_BILL,null,cv);
+        db.close();
+
+    }
+    public void deleteWaterBill(String date)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_WATER_BILL +" WHERE " + COLUMN_WATER_BILL_DATE +"=\"" + date + "\";");
+        db.close();
+    }
+    public String getWaterBillDetail()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        String q = "SELECT * FROM " + TABLE_WATER_BILL +" ORDER BY "+ COLUMN_WATER_BILL_DATE +" desc ;";
+
+        Cursor c =  db.rawQuery(q,null);
+        c.moveToFirst();
+        String data = "";
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_WATER_BILL_DATE))!=null)
+            {
+
+                data+= c.getString(c.getColumnIndex(COLUMN_WATER_BILL_DATE)) + " : " + c.getString(c.getColumnIndex(COLUMN_WATER_BILL_NOTE)) +"\n"+
+                        "----------------------------\n";
+            }
+            c.moveToNext();
+        }
+
+        return data;
+    }
 }

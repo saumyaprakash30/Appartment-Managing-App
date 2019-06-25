@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".liftServicing"></activity>
+        <activity android:name=".waterBill"></activity>
+        <activity android:name=".electricityBill" />
+        <activity android:name=".liftServicing" />
         <activity android:name=".GeneratorServicing" />
         <activity android:name=".GeneratorActivity" />
         <activity android:name=".maintenanceAvtivity" />

@@ -42,6 +42,19 @@ public class maintenanceAvtivity extends AppCompatActivity {
                 startActivity(new Intent(maintenanceAvtivity.this,com.example.myapartment.liftServicing.class));
             }
         });
+        btnEleBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(maintenanceAvtivity.this,com.example.myapartment.electricityBill.class));
+            }
+        });
+
+        btnWaterBill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(maintenanceAvtivity.this,com.example.myapartment.waterBill.class));
+            }
+        });
 
     }
 }

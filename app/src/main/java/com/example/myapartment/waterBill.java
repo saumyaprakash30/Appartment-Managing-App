@@ -13,40 +13,36 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class GeneratorServicing extends AppCompatActivity {
-
-    TextView tvHead,tvDet;
-    EditText etDate,etNote;
-    Button btnAdd,btnDelete,btnCancel;
-    CalendarView cv;
+public class waterBill extends AppCompatActivity {
+    TextView tvDet,tvHead;
     ImageButton btnCalendar;
-    MyDBHandler myDB = new MyDBHandler(GeneratorServicing.this,null,null,1);
+    EditText etDate,etNote;
+    CalendarView cv;
+    Button btnAdd,btnDelete,btnCancel;
 
-
+    MyDBHandler mydb = new MyDBHandler(waterBill.this,null,null,1);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_generator_servicing);
+        setContentView(R.layout.activity_water_bill);
 
-        tvHead = findViewById(R.id.tvGSerHead);
-        tvDet = findViewById(R.id.tvGSerDet);
-        etDate = findViewById(R.id.etGDateSer);
-        etNote = findViewById(R.id.etGSerNote);
-        btnAdd = findViewById(R.id.btnGSerAdd);
-        btnDelete = findViewById(R.id.btnGSerDelete);
-        btnCancel = findViewById(R.id.btnGDelCancelSer);
-        cv = findViewById(R.id.cvGSer);
-        btnCalendar = findViewById(R.id.btnGCalendarSer);
-
-        tvDet.setMovementMethod(new ScrollingMovementMethod());
+        tvDet = findViewById(R.id.tvWaterDet);
+        tvHead = findViewById(R.id.tvWaterHead);
+        etDate = findViewById(R.id.etWaterDate);
+        etNote = findViewById(R.id.etWaterNote);
+        cv = findViewById(R.id.cvWaterCalendar);
+        btnAdd = findViewById(R.id.btnWaterAdd);
+        btnCalendar = findViewById(R.id.btnWaterCalendar);
+        btnDelete = findViewById(R.id.btnWaterDelete);
+        btnCancel = findViewById(R.id.btnWaterCancel);
 
         cv.setVisibility(View.GONE);
-        btnDelete.setVisibility(View.GONE);
         btnCancel.setVisibility(View.GONE);
+        btnDelete.setVisibility(View.GONE);
 
-        tvDet.setText(myDB.getGenSerDetail());
+        tvDet.setMovementMethod(new ScrollingMovementMethod());
+        tvDet.setText(mydb.getWaterBillDetail());
 
         btnCalendar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +51,8 @@ public class GeneratorServicing extends AppCompatActivity {
 
                 cv.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
                     @Override
-                    public void onSelectedDayChange(CalendarView calendarView, int year, int month, int date) {
-                        etDate.setText(year+"-"+month+"-"+date);
-
+                    public void onSelectedDayChange( CalendarView calendarView, int y, int m, int d) {
+                        etDate.setText(y+"-"+m+"-"+d);
                         cv.setVisibility(View.GONE);
                     }
                 });
@@ -67,60 +62,57 @@ public class GeneratorServicing extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnAdd.setVisibility(View.VISIBLE);
                 btnDelete.setVisibility(View.GONE);
                 btnCancel.setVisibility(View.GONE);
-                etNote.setVisibility(View.VISIBLE);
-                etDate.setText("");cv.setVisibility(View.GONE);
+                btnAdd.setVisibility(View.VISIBLE);
+                etNote.setVisibility(View.VISIBLE);cv.setVisibility(View.GONE);
                 etNote.setText("");
-
+                etDate.setText("");
             }
         });
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(etDate.getText().toString().isEmpty() || etNote.getText().toString().isEmpty())
+                if(etNote.getText().toString().isEmpty() || etDate.getText().toString().isEmpty())
                 {
-                    Toast.makeText(GeneratorServicing.this, "Please fill all fields  !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(waterBill.this, "Please fill all details !", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
+                    mydb.addWaterBill(etDate.getText().toString().trim(),etNote.getText().toString());
+                    tvDet.setText(mydb.getWaterBillDetail());
 
-                    myDB.addGenSer(etDate.getText().toString().trim(),etNote.getText().toString().trim());
-
-                    tvDet.setText(myDB.getGenSerDetail());
                     etNote.setText("");
                     etDate.setText("");
-                    Toast.makeText(GeneratorServicing.this, "Saved!", Toast.LENGTH_SHORT).show();
+
+                    Toast.makeText(waterBill.this, "Saved !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(etDate.getText().toString().isEmpty())
                 {
-                    Toast.makeText(GeneratorServicing.this, "Please fill date !", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(waterBill.this, "Please fill the date !", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    myDB.delGenSer(etDate.getText().toString().trim());
-                    tvDet.setText(myDB.getGenSerDetail());
-
-                    btnAdd.setVisibility(View.VISIBLE);
+                    mydb.deleteWaterBill(etDate.getText().toString());
                     btnDelete.setVisibility(View.GONE);
                     btnCancel.setVisibility(View.GONE);
+                    btnAdd.setVisibility(View.VISIBLE);
                     etNote.setVisibility(View.VISIBLE);
+                    etNote.setText("");
                     etDate.setText("");
-
-                    Toast.makeText(GeneratorServicing.this, "Deleted!", Toast.LENGTH_SHORT).show();
-
+                    tvDet.setText(mydb.getWaterBillDetail());
+                    Toast.makeText(waterBill.this, "Deleted !", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
 
 
@@ -130,22 +122,23 @@ public class GeneratorServicing extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.fuelmenu,menu);
         return super.onCreateOptionsMenu(menu);
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId())
         {
-            case R.id.fuelDelete :
-                btnAdd.setVisibility(View.GONE);
+            case R.id.fuelDelete:
                 btnDelete.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.VISIBLE);
-                etNote.setVisibility(View.GONE);
-                etDate.setText("");cv.setVisibility(View.GONE);
+                btnAdd.setVisibility(View.GONE);
+                etNote.setVisibility(View.GONE);cv.setVisibility(View.GONE);
                 etNote.setText("");
+                etDate.setText("");
 
         }
+
         return super.onOptionsItemSelected(item);
     }
 }
