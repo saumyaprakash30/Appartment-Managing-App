@@ -13,6 +13,11 @@
         android:layout_height="wrap_content"
         android:text="Add flat" />
 
+    <TextView
+        android:id="@+id/tvFlatDet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ListView
         android:id="@+id/lvFlats"
         android:layout_width="match_parent"

@@ -1,10 +1,14 @@
 package com.example.myapartment;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -88,6 +92,11 @@ public class ViewFlatDetail extends AppCompatActivity {
                 builder.setItems(callList, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        if(ContextCompat.checkSelfPermission(ViewFlatDetail.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED)
+                        {
+                            ActivityCompat.requestPermissions(ViewFlatDetail.this,new String[]{Manifest.permission.CALL_PHONE},1);
+                        }
+                        else{
                         if(i==0)
                         {
                             Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tvVONumber.getText().toString()));
@@ -99,6 +108,7 @@ public class ViewFlatDetail extends AppCompatActivity {
                         }
 
 
+                        }
                     }
 
                 });
@@ -122,20 +132,25 @@ public class ViewFlatDetail extends AppCompatActivity {
                 builder.setItems(callList, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if(i==0)
+                        if(ContextCompat.checkSelfPermission(ViewFlatDetail.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
                         {
-                             Uri uri = Uri.parse("smsto:"+tvVONumber.getText().toString());
-                            Intent sendSms = new Intent(Intent.ACTION_SEND,uri);
-                            startActivity(sendSms);
-
+                            ActivityCompat.requestPermissions(ViewFlatDetail.this,new String[]{Manifest.permission.SEND_SMS},1);
                         }
-                        if(i==1)
-                        {
-                            Uri uri = Uri.parse("smsto:"+tvVRNumber.getText().toString());
-                            Intent sendSms = new Intent(Intent.ACTION_SEND,uri);
-                            startActivity(sendSms);
+                        else
+                            if(i==0)
+                            {
+                                Uri uri = Uri.parse("smsto:"+tvVONumber.getText().toString());
+                                Intent sendSms = new Intent(Intent.ACTION_SEND,uri);
+                                startActivity(sendSms);
 
-                        }
+                            }
+                            else if(i==1)
+                            {
+                                Uri uri = Uri.parse("smsto:"+tvVRNumber.getText().toString());
+                                Intent sendSms = new Intent(Intent.ACTION_SEND,uri);
+                                startActivity(sendSms);
+
+                            }
                     }
                 });
                 builder.show();

@@ -29,6 +29,8 @@ public class electricityBill extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electricity_bill);
 
+        electricityBill.this.setTitle("Electricity");
+
         tvDet = findViewById(R.id.tvEleDet);
         tvHead = findViewById(R.id.tvEleHead);
         etDate = findViewById(R.id.etEleDate);

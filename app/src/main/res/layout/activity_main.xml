@@ -39,13 +39,13 @@
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/btnGuard"
+        android:id="@+id/btnGuardDetail"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="20dp"
         android:text="Guard Detail"
-        android:textStyle="bold" />
+        android:textSize="16sp" />
 
 </LinearLayout>

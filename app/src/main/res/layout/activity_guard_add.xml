@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".guardAdd">
+
+    <TextView
+        android:id="@+id/textView19"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Add new Guard"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/floatinghint_guardName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:hintTextAppearance="@style/FloatingHint">
+
+        <EditText
+            android:id="@+id/etGuardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName"
+            android:textAllCaps="false" />
+        </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/floatinghint_guardNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:hintTextAppearance="@style/FloatingHint">
+
+        <EditText
+            android:id="@+id/etGuardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Mob. Number"
+            android:inputType="phone"
+            android:textAllCaps="false" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/floatinghint_guardGovId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:hintTextAppearance="@style/FloatingHint">
+
+        <EditText
+            android:id="@+id/etGuardGovId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Gov Id Number"
+            android:inputType="textPersonName"
+            android:textAllCaps="false" />
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/floatinghint_guardNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:hintTextAppearance="@style/FloatingHint">
+
+        <EditText
+            android:id="@+id/etGuardNote"
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:ems="10"
+            android:gravity="top"
+            android:hint="other Notes"
+            android:inputType="textPersonName"
+            android:textAllCaps="false" />
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnGuardSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="save" />
+
+        <Button
+            android:id="@+id/btnGuardCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:text="cancel" />
+    </LinearLayout>
+
+</LinearLayout>

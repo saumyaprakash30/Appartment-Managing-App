@@ -30,13 +30,19 @@ public class MyDBHandler extends SQLiteOpenHelper
     public static final String COLUMN_GEN_SER_NOTE = "gen_serNote";
     public static final String TABLE_LIFT_SER = "liftSerDetail";
     public static final String COLUMN_LIFT_SER_DATE = "lift_serDate";
-    public static final  String COLUMN_LIFT_SER_NOTE = "lift_serNote";
+    public static final String COLUMN_LIFT_SER_NOTE = "lift_serNote";
     public static final String TABLE_ELE_BILL = "eleBill";
     public static final String COLUMN_ELE_BILL_DATE = "ele_billDate";
     public static final String COLUMN_ELE_BILL_NOTE =  "ele_billNote";
     public static final String TABLE_WATER_BILL = "waterBill";
     public static final String COLUMN_WATER_BILL_DATE = "water_billDate";
     public static final String COLUMN_WATER_BILL_NOTE =  "water_billNote";
+    public static final String TABLE_GUARD_DETAIL = "guardDetail";
+    public static final String COLUMN_GUARD_INDEX = "guard_index";
+    public static final String COLUMN_GUARD_NAME = "guard_name";
+    public static final String COLUMN_GUARD_M_NUMBER = "guard_MNumber";
+    public static final String COLUMN_GUARD_ID = "guard_id"; // any gov id no.
+    public static final String COLUMN_GUARD_NOTE = "guard_note";
 
     public MyDBHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -75,9 +81,13 @@ public class MyDBHandler extends SQLiteOpenHelper
                 COLUMN_WATER_BILL_NOTE+ " TEXT )";
         db.execSQL(query);
 
-
-
-
+        query = "CREATE TABLE " + TABLE_GUARD_DETAIL + " ( " +
+                COLUMN_GUARD_INDEX + " INTEGER PRIMARY KEY AUTOINCREMENT, "+
+                COLUMN_GUARD_NAME + " TEXT ," +
+                COLUMN_GUARD_M_NUMBER + " TEXT, " +
+                COLUMN_GUARD_ID + " TEXT ," +
+                COLUMN_GUARD_NOTE + " TEXT )";
+        db.execSQL(query);
     }
 
     @Override
@@ -94,6 +104,8 @@ public class MyDBHandler extends SQLiteOpenHelper
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ELE_BILL);
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_WATER_BILL);
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_GUARD_DETAIL);
         onCreate(db);
 
 
@@ -405,4 +417,81 @@ public class MyDBHandler extends SQLiteOpenHelper
 
         return data;
     }
+
+    public void addGuardDetail(guard list)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_GUARD_NAME,list.getGuardName());
+        cv.put(COLUMN_GUARD_M_NUMBER, list.getGuardNumber());
+        cv.put(COLUMN_GUARD_ID,list.getGuardGovId());
+        cv.put(COLUMN_GUARD_NOTE,list.getGuardNote());
+        db.insert(TABLE_GUARD_DETAIL,null,cv);
+        db.close();
+    }
+
+    public void deleteGuard(String name)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        db.execSQL("DELETE FROM " + TABLE_GUARD_DETAIL +" WHERE " + COLUMN_GUARD_NAME +"=\"" + name + "\";");
+    }
+
+    public ArrayList<guard> getAllGuards()
+    {
+        ArrayList<guard> allguard = new ArrayList<guard>();
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_GUARD_DETAIL;
+
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+
+        while(!c.isAfterLast())
+        {
+            if(c.getString(c.getColumnIndex(COLUMN_GUARD_NAME))!= null)
+            {
+                String gnum,gName,gGovid,gNote;
+
+                gnum = c.getString(c.getColumnIndex(COLUMN_GUARD_M_NUMBER));
+                gName = c.getString(c.getColumnIndex(COLUMN_GUARD_NAME));
+
+                gGovid = c.getString(c.getColumnIndex(COLUMN_GUARD_ID));
+                gNote = c.getString(c.getColumnIndex(COLUMN_GUARD_NOTE));
+                guard newguard = new guard(gName,gnum,gGovid,gNote);
+                allguard.add(newguard);
+            }
+            c.moveToNext();
+        }
+
+        db.close();
+        return allguard ;
+    }
+
+    public guard getCurrentGuard()
+    {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_GUARD_DETAIL+ " ORDER BY " +  COLUMN_GUARD_INDEX + " DESC";
+        Cursor c = db.rawQuery(query,null);
+        c.moveToFirst();
+        String name="",num="",id="",note="";
+        if(!c.isAfterLast())
+        {
+            name= c.getString(c.getColumnIndex(COLUMN_GUARD_NAME));
+            num = c.getString(c.getColumnIndex(COLUMN_GUARD_M_NUMBER));
+            id = c.getString(c.getColumnIndex(COLUMN_GUARD_ID));
+            note = c.getString(c.getColumnIndex(COLUMN_GUARD_NOTE));
+
+
+
+
+        }
+        guard currguard = new guard(name,num,id,note);
+        return currguard;
+    }
+
+
 }
+

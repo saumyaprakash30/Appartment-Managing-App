@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".newFlat">
 
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="New Flat"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/floatinghint_flatName"
         android:layout_width="match_parent"

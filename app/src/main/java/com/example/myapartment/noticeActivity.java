@@ -91,6 +91,13 @@ public class noticeActivity extends AppCompatActivity implements AdapterView.OnI
             }
         });
 
+        btnMCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                noticeActivity.this.finish();
+            }
+        });
+
 
 
 
